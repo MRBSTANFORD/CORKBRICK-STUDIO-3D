@@ -1,8 +1,8 @@
 
 /**
  * 🔒 STABLE MODULE: AI Architect Service
- * STATUS: FROZEN
- * VERSION: 1.2.0 - BYOK Native Integration
+ * STATUS: FROZEN (STRICT BYOK ENFORCED)
+ * VERSION: 1.4.0
  */
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { BrockType } from '../types';
@@ -54,8 +54,17 @@ export interface GeneratedDesign {
 export const generateDesigns = async (userPrompt: string): Promise<GeneratedDesign[]> => {
   const config = AppConfigService.get().aiArchitect;
   
-  // 🔒 BYOK: Initialize client right before use to capture the latest key from process.env.API_KEY
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // 🛡️ SECURITY LAYER: STRICT BYOK (Bring Your Own Key)
+  // We have intentionally REMOVED the fallback to process.env.API_KEY.
+  // This ensures that even if a key is injected by the hosting environment, 
+  // the code will IGNORE it, preventing any usage of the owner's billing.
+  const userKey = localStorage.getItem('corkbrick_user_gemini_key');
+
+  if (!userKey) {
+    throw new Error("NO_API_KEY");
+  }
+  
+  const ai = new GoogleGenAI({ apiKey: userKey });
   
   try {
     const response = await ai.models.generateContent({
