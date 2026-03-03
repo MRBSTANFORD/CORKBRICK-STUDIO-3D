@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { X, MousePointer2, Hammer, Hand, Move, Keyboard, Settings, BrainCircuit, Info, Heart, Leaf, Box, Layers, Mouse } from 'lucide-react';
+import { X, MousePointer2, Hammer, Hand, Move, Keyboard, Settings, Info, Heart, Leaf, Box, Layers, Mouse } from 'lucide-react';
 
 interface HelpModalProps {
   onClose: () => void;
@@ -182,19 +182,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ onClose }) => {
             {activeTab === 'TOOLS' && (
                 <div className="space-y-6 animate-in slide-in-from-bottom-2">
                     
-                    <div className="flex gap-4 items-start p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-                        <div className="bg-indigo-600 text-white p-2 rounded-lg shrink-0"><BrainCircuit size={24}/></div>
-                        <div>
-                            <h4 className="font-bold text-indigo-900 mb-1">AI Architect (Experimental)</h4>
-                            <p className="text-sm text-indigo-800 mb-2">
-                                Describe what you want (e.g., "A modern TV stand with shelves"), and our AI will generate a structural blueprint for you.
-                            </p>
-                            <p className="text-xs text-indigo-600 italic bg-white/50 p-2 rounded">
-                                * Note: This feature is experimental. The designs are generated creatively and may require manual adjustment for stability. We welcome your feedback!
-                            </p>
-                        </div>
-                    </div>
-
                     <div className="flex gap-4 items-start p-4 bg-gray-50 rounded-xl border border-gray-200">
                         <div className="bg-gray-600 text-white p-2 rounded-lg shrink-0"><Settings size={24}/></div>
                         <div>

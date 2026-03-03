@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, RotateCcw, HelpCircle, FileText, Box, PenTool, BrainCircuit, Palette } from 'lucide-react';
+import { X, RotateCcw, HelpCircle, FileText, Box, PenTool, Palette } from 'lucide-react';
 import { GeoConfig, GEO_META, GeoKey } from '../services/geometryConfig';
 import { AppConfigService, BROCK_SPECS } from '../constants';
 import { BrockType } from '../types';
@@ -9,7 +9,7 @@ interface AdminDashboardProps {
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
-  const [activeTab, setActiveTab] = useState<'GEO' | 'APP' | 'DIAGRAM' | 'AI' | 'STYLE'>('STYLE');
+  const [activeTab, setActiveTab] = useState<'GEO' | 'APP' | 'DIAGRAM' | 'STYLE'>('STYLE');
   const [geoConfig, setGeoConfig] = useState(GeoConfig.getAll() || {});
   const [appConfig, setAppConfig] = useState(AppConfigService.get() || {});
   const [currentSpecs, setCurrentSpecs] = useState({ ...BROCK_SPECS });
@@ -185,7 +185,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <button onClick={onClose} className="p-1.5 hover:bg-gray-200 rounded text-gray-500"><X size={18}/></button>
          </div>
          <div className="flex bg-gray-200 rounded-lg p-1 gap-1">
-             <button onClick={() => setActiveTab('AI')} className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'AI' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}><BrainCircuit size={14}/>AI</button>
              <button onClick={() => setActiveTab('APP')} className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'APP' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}><FileText size={14}/>App</button>
              <button onClick={() => setActiveTab('GEO')} className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'GEO' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}><Box size={14}/>Phys</button>
              <button onClick={() => setActiveTab('STYLE')} className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'STYLE' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}><Palette size={14}/>Style</button>
@@ -194,65 +193,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
       
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
-
-        {activeTab === 'AI' && (
-            <div className="space-y-6">
-                <div>
-                    <h3 className="text-xs font-bold text-indigo-600 uppercase tracking-wider border-b pb-1 mb-3">Master Architect</h3>
-                    <div className="space-y-3">
-                         <div className="grid grid-cols-2 gap-2">
-                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-700 block">Model</label>
-                                <input 
-                                    type="text" 
-                                    value={appConfig?.aiArchitect?.model || ''} 
-                                    onChange={(e) => AppConfigService.setAiArchitect('model', e.target.value)}
-                                    className="w-full p-1.5 text-xs border rounded bg-gray-50 focus:bg-white focus:ring-1 focus:ring-indigo-500"
-                                />
-                             </div>
-                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-700 block">Temp ({appConfig?.aiArchitect?.temperature || 0})</label>
-                                <input 
-                                    type="range" min="0" max="1" step="0.1"
-                                    value={appConfig?.aiArchitect?.temperature || 0} 
-                                    onChange={(e) => AppConfigService.setAiArchitect('temperature', parseFloat(e.target.value))}
-                                    className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-                                />
-                             </div>
-                         </div>
-                         <div className="space-y-1">
-                            <label className="text-xs font-medium text-gray-700 block">System Instruction (The "Brain")</label>
-                            <textarea 
-                                value={appConfig?.aiArchitect?.systemInstruction || ''} 
-                                onChange={(e) => AppConfigService.setAiArchitect('systemInstruction', e.target.value)}
-                                className="w-full p-2 text-xs border rounded-md text-gray-600 bg-gray-50 focus:bg-white focus:ring-1 focus:ring-indigo-500 outline-none resize-y min-h-[150px] font-mono leading-tight"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h3 className="text-xs font-bold text-indigo-600 uppercase tracking-wider border-b pb-1 mb-3">Generative Agents</h3>
-                    <div className="space-y-4">
-                        <div className="space-y-1">
-                            <label className="text-xs font-medium text-gray-700 block">Instruction Generation Prompt</label>
-                            <textarea 
-                                value={appConfig?.prompts?.instructionGeneration || ''} 
-                                onChange={(e) => AppConfigService.setPrompt('instructionGeneration', e.target.value)}
-                                className="w-full p-2 text-xs border rounded-md text-gray-600 bg-gray-50 focus:bg-white focus:ring-1 focus:ring-indigo-500 outline-none resize-y min-h-[80px]"
-                            />
-                        </div>
-                        <div className="space-y-1">
-                            <label className="text-xs font-medium text-gray-700 block">Design Validation Prompt</label>
-                            <textarea 
-                                value={appConfig?.prompts?.designValidation || ''} 
-                                onChange={(e) => AppConfigService.setPrompt('designValidation', e.target.value)}
-                                className="w-full p-2 text-xs border rounded-md text-gray-600 bg-gray-50 focus:bg-white focus:ring-1 focus:ring-indigo-500 outline-none resize-y min-h-[80px]"
-                            />
-                        </div>
-                    </div>
-                 </div>
-            </div>
-        )}
 
         {activeTab === 'STYLE' && (
              <div className="space-y-6">
